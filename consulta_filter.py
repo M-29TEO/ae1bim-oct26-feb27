@@ -1,4 +1,4 @@
-# consulta_filter.py
+
 # Uso de filter(): obtener los veterinarios que trabajan en
 # consultorios cuya especialidad es "Cirugía".
 
