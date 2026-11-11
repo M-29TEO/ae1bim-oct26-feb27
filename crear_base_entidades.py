@@ -1,7 +1,6 @@
-# crear_base_entidades.py
-# Define las entidades (tablas) del problema usando el ORM de SQLAlchemy
-# y crea físicamente la base de datos SQLite.
-#
+
+# Definimos las entidades (tablas) del problema usando el ORM de SQLAlchemy
+# y creando físicamente la base de datos SQLite.
 # Modelo:
 #   Clinica 1 ──< N Consultorio 1 ──< N Veterinario 1 ──< N HistoriaClinica
 
@@ -27,8 +26,8 @@ class Clinica(Base):
     direccion = Column(String(200), nullable=False)
     veterinario_responsable = Column(String(100), nullable=False)
 
-    # Relación 1 a N: una clínica tiene muchos consultorios.
-    # back_populates enlaza con el atributo "clinica" de Consultorio.
+    # Relación: una clínica tiene muchos consultorios.
+    # back_populates enlaza con el atributo clinica de Consultorio.
     consultorios = relationship("Consultorio", back_populates="clinica")
 
     def __repr__(self):
@@ -43,7 +42,7 @@ class Consultorio(Base):
     especialidad = Column(String(100), nullable=False)
 
     # Clave foránea obligatoria (nullable=False): todo consultorio
-    # pertenece a una sola clínica.
+    # pertenece a una sola clínica
     clinica_id = Column(Integer, ForeignKey("clinica.id"), nullable=False)
     clinica = relationship("Clinica", back_populates="consultorios")
 
@@ -62,7 +61,7 @@ class Veterinario(Base):
     correo = Column(String(100), nullable=False, unique=True)
     licencia = Column(String(50), nullable=False, unique=True)
 
-    # Cada veterinario pertenece únicamente a un consultorio.
+    # Cada veterinario pertenece únicamente a un consultorio
     consultorio_id = Column(Integer, ForeignKey("consultorio.id"), nullable=False)
     consultorio = relationship("Consultorio", back_populates="veterinarios")
 
@@ -82,7 +81,7 @@ class HistoriaClinica(Base):
     nombre_mascota = Column(String(100), nullable=False)
 
     # Cada historia clínica está asociada obligatoriamente al veterinario
-    # que la elaboró.
+    # que la elaboró
     veterinario_id = Column(Integer, ForeignKey("veterinario.id"), nullable=False)
     veterinario = relationship("Veterinario", back_populates="historias")
 
@@ -92,9 +91,9 @@ class HistoriaClinica(Base):
 
 
 # Este bloque solo se ejecuta si se corre el archivo directamente
-# (python crear_base_entidades.py), no cuando otro archivo lo importa.
+# (python crear_base_entidades.py), no cuando otro archivo lo importa
 if __name__ == "__main__":
     # create_all genera las sentencias CREATE TABLE de todas las clases
-    # que heredan de Base (si las tablas aún no existen).
+    # que heredan de Base (si las tablas aún no existen)
     Base.metadata.create_all(engine)
     print("Base de datos y tablas creadas correctamente.")

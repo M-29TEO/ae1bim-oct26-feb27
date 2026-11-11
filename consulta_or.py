@@ -1,7 +1,7 @@
-# consulta_or.py
+
 # Uso de or_(): historias clínicas cuyo diagnóstico contiene "Otitis"
-# O cuyo diagnóstico contiene "Gastroenteritis".
-# Basta con que se cumpla UNA de las condiciones.
+# O cuyo diagnóstico contiene "Gastroenteritis"
+# Basta con que se cumpla UNA de las condiciones
 
 from sqlalchemy import or_
 from sqlalchemy.orm import sessionmaker

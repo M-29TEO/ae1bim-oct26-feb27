@@ -10,7 +10,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # join(Veterinario.consultorio) une la tabla veterinario con consultorio
-# usando la clave foránea, para poder filtrar por un campo del consultorio.
+# usando la clave foránea, para poder filtrar por un campo del consultorio
 # filter() agrega la condición WHERE.
 veterinarios = (session.query(Veterinario)
                 .join(Veterinario.consultorio)

@@ -1,7 +1,7 @@
-# consulta_and.py
+
 # Uso de and_(): historias clínicas atendidas a partir del 1 de octubre
-# de 2026 Y que pertenecen a la clínica "Huellitas Quito".
-# Se deben cumplir AMBAS condiciones.
+# de 2026 Y que pertenecen a la clínica "Huellitas Quito"
+# Se deben cumplir AMBAS condiciones
 
 from datetime import date
 
@@ -14,7 +14,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # Se recorre el camino de relaciones con varios join para poder
-# filtrar por el nombre de la clínica.
+# filtrar por el nombre de la clínica
 historias = (session.query(HistoriaClinica)
              .join(HistoriaClinica.veterinario)
              .join(Veterinario.consultorio)

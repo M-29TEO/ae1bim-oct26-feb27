@@ -1,9 +1,6 @@
-# consulta_all.py
+
 # Uso de all(): presentar las Clínicas y, por cada una, el número
 # de Historias Clínicas asociadas.
-#
-# Una historia no se relaciona directamente con la clínica, sino por el camino:
-#   Clinica -> Consultorio -> Veterinario -> HistoriaClinica
 
 from sqlalchemy.orm import sessionmaker
 
@@ -12,7 +9,7 @@ from crear_base_entidades import engine, Clinica
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# all() ejecuta la consulta y devuelve una LISTA con todos los registros.
+# all() ejecuta la consulta y devuelve una lista con todos los registros.
 clinicas = session.query(Clinica).all()
 
 print("Clínicas y número de historias clínicas asociadas")
