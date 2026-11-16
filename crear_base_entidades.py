@@ -1,20 +1,18 @@
-
-# Definimos las entidades (tablas) del problema usando el ORM de SQLAlchemy
-# y creando físicamente la base de datos SQLite.
-# Modelo:
-#   Clinica 1 ──< N Consultorio 1 ──< N Veterinario 1 ──< N HistoriaClinica
+# En este archivo se crean las tablas de la base de datos.
+# Las tablas son: Clinica, Consultorio, Veterinario y HistoriaClinica.
+# Una clinica tiene varios consultorios, un consultorio tiene varios
+# veterinarios y un veterinario tiene varias historias clinicas.
 
 from sqlalchemy import create_engine, Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 
-# Se importa la cadena de conexión desde configuracion.py
+# Traemos el nombre de la base desde configuracion.py
 from configuracion import cadena_base_datos
 
-# El engine es el objeto que sabe cómo conectarse a la base de datos.
+# engine sirve para conectarse a la base de datos
 engine = create_engine(cadena_base_datos)
 
-# Base es la clase de la que heredan todas las entidades.
-# SQLAlchemy usa esta herencia para saber qué clases son tablas.
+# Todas las clases que hereden de Base se convierten en tablas
 Base = declarative_base()
 
 
@@ -26,8 +24,7 @@ class Clinica(Base):
     direccion = Column(String(200), nullable=False)
     veterinario_responsable = Column(String(100), nullable=False)
 
-    # Relación: una clínica tiene muchos consultorios.
-    # back_populates enlaza con el atributo clinica de Consultorio.
+    # Una clinica tiene muchos consultorios
     consultorios = relationship("Consultorio", back_populates="clinica")
 
     def __repr__(self):
@@ -41,11 +38,11 @@ class Consultorio(Base):
     nombre = Column(String(100), nullable=False)
     especialidad = Column(String(100), nullable=False)
 
-    # Clave foránea obligatoria (nullable=False): todo consultorio
-    # pertenece a una sola clínica
+    # Cada consultorio tiene que estar en una clinica
     clinica_id = Column(Integer, ForeignKey("clinica.id"), nullable=False)
     clinica = relationship("Clinica", back_populates="consultorios")
 
+    # Un consultorio tiene muchos veterinarios
     veterinarios = relationship("Veterinario", back_populates="consultorio")
 
     def __repr__(self):
@@ -61,10 +58,11 @@ class Veterinario(Base):
     correo = Column(String(100), nullable=False, unique=True)
     licencia = Column(String(50), nullable=False, unique=True)
 
-    # Cada veterinario pertenece únicamente a un consultorio
+    # Cada veterinario trabaja en un solo consultorio
     consultorio_id = Column(Integer, ForeignKey("consultorio.id"), nullable=False)
     consultorio = relationship("Consultorio", back_populates="veterinarios")
 
+    # Un veterinario hace muchas historias clinicas
     historias = relationship("HistoriaClinica", back_populates="veterinario")
 
     def __repr__(self):
@@ -80,8 +78,7 @@ class HistoriaClinica(Base):
     tratamiento = Column(String(300), nullable=False)
     nombre_mascota = Column(String(100), nullable=False)
 
-    # Cada historia clínica está asociada obligatoriamente al veterinario
-    # que la elaboró
+    # Cada historia clinica tiene que tener el veterinario que la hizo
     veterinario_id = Column(Integer, ForeignKey("veterinario.id"), nullable=False)
     veterinario = relationship("Veterinario", back_populates="historias")
 
@@ -90,10 +87,8 @@ class HistoriaClinica(Base):
                 f"Dx: {self.diagnostico} | Tx: {self.tratamiento}")
 
 
-# Este bloque solo se ejecuta si se corre el archivo directamente
-# (python crear_base_entidades.py), no cuando otro archivo lo importa
+# Esto solo se ejecuta cuando corremos este archivo
 if __name__ == "__main__":
-    # create_all genera las sentencias CREATE TABLE de todas las clases
-    # que heredan de Base (si las tablas aún no existen)
+    # Crea todas las tablas en la base de datos
     Base.metadata.create_all(engine)
     print("Base de datos y tablas creadas correctamente.")

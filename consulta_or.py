@@ -1,7 +1,5 @@
-
-# Uso de or_(): consultorios cuya especialidad es "Cirugía"
-# O cuya especialidad es "Dermatología"
-# Basta con que se cumpla UNA de las condiciones
+# Consulta con or_(): muestra los consultorios que son de Cirugía
+# o de Dermatología. Basta con que cumpla una de las dos.
 
 from sqlalchemy import or_
 from sqlalchemy.orm import sessionmaker
@@ -11,7 +9,6 @@ from crear_base_entidades import engine, Consultorio
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# or_() une las condiciones con OR en el WHERE de la consulta
 consultorios = (session.query(Consultorio)
                 .filter(or_(Consultorio.especialidad == "Cirugía",
                             Consultorio.especialidad == "Dermatología"))

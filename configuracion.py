@@ -1,8 +1,4 @@
-
-# Información de conexión a la base de datos.
-# Se centraliza aquí para que todos los scripts usen la misma base.
-#
-# Formato de la cadena de conexión de SQLAlchemy para SQLite:
-#   sqlite:///<ruta_del_archivo>
+# Aqui va el nombre de la base de datos que vamos a usar.
+# Es un archivo de SQLite que se crea en la misma carpeta del proyecto.
 
 cadena_base_datos = "sqlite:///clinicas_veterinarias.db"

@@ -1,6 +1,5 @@
-
-# Uso de filter(): obtener los veterinarios que trabajan en
-# consultorios cuya especialidad es "Cirugía".
+# Consulta con filter(): muestra los veterinarios que trabajan
+# en consultorios de Cirugía.
 
 from sqlalchemy.orm import sessionmaker
 
@@ -9,9 +8,8 @@ from crear_base_entidades import engine, Veterinario, Consultorio
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# join(Veterinario.consultorio) une la tabla veterinario con consultorio
-# usando la clave foránea, para poder filtrar por un campo del consultorio
-# filter() agrega la condición WHERE.
+# join une veterinario con su consultorio
+# filter deja solo los que son de Cirugía
 veterinarios = (session.query(Veterinario)
                 .join(Veterinario.consultorio)
                 .filter(Consultorio.especialidad == "Cirugía")

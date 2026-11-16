@@ -1,6 +1,5 @@
-
-# Uso de order_by(): listar las historias clínicas ordenadas por
-# fecha de atención, de la más reciente a la más antigua
+# Consulta con order_by(): muestra las historias clinicas ordenadas
+# por fecha, de la mas nueva a la mas antigua.
 
 from sqlalchemy.orm import sessionmaker
 
@@ -9,8 +8,7 @@ from crear_base_entidades import engine, HistoriaClinica
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# order_by() agrega ORDER BY. .desc() invierte el orden (descendente);
-# sin él, el orden es ascendente
+# desc() ordena de mayor a menor (fecha mas nueva primero)
 historias = (session.query(HistoriaClinica)
              .order_by(HistoriaClinica.fecha_atencion.desc())
              .all())

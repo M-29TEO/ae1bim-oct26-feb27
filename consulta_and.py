@@ -1,7 +1,5 @@
-
-# Uso de and_(): historias clínicas atendidas a partir del 1 de octubre
-# de 2026 Y que pertenecen a la clínica "Huellitas Quito"
-# Se deben cumplir AMBAS condiciones
+# Consulta con and_(): muestra las historias clinicas desde el 1 de octubre
+# de 2026 que sean de la clinica Huellitas Quito. Tiene que cumplir las dos.
 
 from datetime import date
 
@@ -13,8 +11,7 @@ from crear_base_entidades import engine, HistoriaClinica, Veterinario, Consultor
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Se recorre el camino de relaciones con varios join para poder
-# filtrar por el nombre de la clínica
+# Con los join llegamos desde la historia hasta la clinica
 historias = (session.query(HistoriaClinica)
              .join(HistoriaClinica.veterinario)
              .join(Veterinario.consultorio)
